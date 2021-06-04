@@ -24,9 +24,7 @@ class TuringMachine
 
   def print_tape (tape, indicator = true)
     # print tape underlining the current cell
-    tape.sort{|c|
-      c[0].to_i
-    }.to_h.map{|c|
+    Hash[tape.sort_by{|k, v| k.to_i }].to_h.map{|c|
       if (c[0].to_i == @current_cell and indicator)
         print Rainbow(c[1]).underline
       else
@@ -53,12 +51,6 @@ class TuringMachine
     tape = Hash.new
     input.split("").each_with_index do |value, i|
       tape[i.to_s] = value
-    end
-
-    if (@should_print)
-      puts "Fita inicial:"
-      self.print_tape tape, false
-      puts "\n\n"
     end
 
     while @current_state != @final_state do
